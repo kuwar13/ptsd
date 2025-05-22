@@ -1,0 +1,16 @@
+# === Maven / Java Backend ===
+ptsd/target/
+ptsd/*.log
+ptsd/.mvn/
+
+# === Angular Frontend ===
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/*.log
+
+# === IDE / OS ===
+.vscode/
+.idea/
+.DS_Store
+*.iml

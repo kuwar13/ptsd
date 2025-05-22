@@ -1,0 +1,57 @@
+
+<div class="top-nav">
+    <button routerLink="/" class="home-link-button">🏠 Home</button>
+  </div>
+  
+<div class="container">
+    <h1 class="title">🧠 PTSD Checklist – Civilian Version (PCL-C)</h1>
+  
+    <!-- Show Risk Level at Top -->
+    <div *ngIf="result" class="result-banner" [ngClass]="riskClass(result.riskLevel)">
+      Risk Level: {{ result.riskLevel }} | Total Score: {{ result.totalScore }}
+    </div>
+  
+    <form (ngSubmit)="submitForm()" *ngIf="!result">
+      <div class="question" *ngFor="let q of questions; let i = index">
+        <p><strong>{{i + 1}}. {{q}}</strong></p>
+        <div class="options">
+          <label *ngFor="let opt of [1,2,3,4,5]">
+            <input type="radio" [name]="'q' + i" [value]="opt" [(ngModel)]="responses[i]" required>
+            {{opt}}
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="submit-button">
+        Submit & Get Risk Score
+      </button>
+    </form>
+  
+    <!-- Reset Button -->
+    <div *ngIf="result">
+      <button class="submit-button" (click)="resetForm()">
+        Retake Assessment
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="result" class="chart-wrapper">
+    <h3>PTSD Risk Level Chart</h3>
+    
+    <canvas baseChart
+            [data]="chartData"
+            [type]="'bar'"
+            [options]="{ responsive: true, maintainAspectRatio: false }"
+            style="max-height: 250px; width: 100%;">
+    </canvas>
+  
+    <div class="risk-legend">
+      <h4>Risk Score Ranges:</h4>
+      <ul>
+        <li><strong>Low Risk:</strong> 0 - 29</li>
+        <li><strong>Moderate Risk:</strong> 30 - 49</li>
+        <li><strong>High Risk:</strong> 50 and above</li>
+      </ul>
+    </div>
+  </div>
+  
+  

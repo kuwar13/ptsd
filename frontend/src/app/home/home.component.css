@@ -1,0 +1,21 @@
+.home-container {
+    text-align: center;
+    margin-top: 5rem;
+  }
+  
+  .home-button {
+    margin: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: #0e639c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .home-button:hover {
+    background-color: #09507a;
+  }
+  
