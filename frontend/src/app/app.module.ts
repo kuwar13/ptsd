@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { PclFormComponent } from './pcl-form/pcl-form.component';
+import { PclFormComponent } from './pclc-form/pcl-form.component';
 
 @NgModule({
   declarations: [

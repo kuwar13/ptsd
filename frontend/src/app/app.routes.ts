@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { PclFormComponent } from './pcl-form/pcl-form.component';
+import { PclFormComponent } from './pclc-form/pcl-form.component';
 import { Pcl5FormComponent } from './pcl5-form/pcl5-form.component';
 
 export const routes: Routes = [

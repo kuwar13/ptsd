@@ -1,7 +1,7 @@
 # === Maven / Java Backend ===
-ptsd/target/
-ptsd/*.log
-ptsd/.mvn/
+backend/target/
+backend/*.log
+backend/.mvn/
 
 # === Angular Frontend ===
 frontend/node_modules/
