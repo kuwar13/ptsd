@@ -11,7 +11,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200") // Angular frontend
 public class PclController {
 
-    @PostMapping("/score")
+    @PostMapping("/pcl-c/score")
     public PclResponse calculateScore(@RequestBody PclRequest request) {
         List<Integer> responses = request.getResponses();
         int total = responses.stream().mapToInt(Integer::intValue).sum();

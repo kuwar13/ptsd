@@ -86,7 +86,7 @@ export class PclFormComponent {
       return;
     }
 
-    this.http.post<any>('http://localhost:8080/api/pcl/score', {
+    this.http.post<any>('http://localhost:8080/api/pcl/pcl-c/score', {
       responses: this.responses
     }).subscribe(data => {
       this.result = data;
