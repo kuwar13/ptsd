@@ -105,30 +105,7 @@ export class Pcl5FormComponent implements OnInit {
    // this.prepareAndTrainModel().then(() => this.modelReady = true);
   }
 
-  /** Training regression model on SAMPLE_DATA */
-  // private async prepareAndTrainModel() {
-  //   const inputs = SAMPLE_DATA.map(d => d.features);
-  //   const labels = SAMPLE_DATA.map(d => d.label);
-  //   const inputTensor = tf.tensor2d(inputs);
-  //   const labelTensor = tf.tensor2d(labels, [labels.length, 1]);
 
-  //   this.dataMin = inputTensor.min(0);
-  //   this.dataMax = inputTensor.max(0);
-  //   const normInputs = inputTensor.sub(this.dataMin)
-  //                                 .div(this.dataMax.sub(this.dataMin));
-
-  //   this.model = tf.sequential();
-  //   this.model.add(tf.layers.dense({ inputShape:[10], units:16, activation:'relu' }));
-  //   this.model.add(tf.layers.dense({ units:8, activation:'relu' }));
-  //   this.model.add(tf.layers.dense({ units:1, activation:'linear' }));
-  //   this.model.compile({ optimizer:'adam', loss:'meanSquaredError' });
-
-  //   await this.model.fit(normInputs, labelTensor, {
-  //     epochs: 500,
-  //     shuffle: true,
-  //     callbacks: { onEpochEnd: (ep, logs) => console.log(`Epoch ${ep}: loss=${logs?.['loss']}`) }
-  //   });
-  // }
 
   /** Submit PCL-5 form to backend for current score */
   submitForm() {

@@ -57,13 +57,7 @@ export class PclFormComponent {
 
   constructor(private http: HttpClient) {}
 
-  riskClass(risk: string) {
-    switch (risk) {
-      case 'High Risk': return 'high';
-      case 'Moderate Risk': return 'moderate';
-      default: return 'low';
-    }
-  }
+  
 
   chartData: ChartConfiguration<'bar'>['data'] = {
     labels: ['Low Risk', 'Moderate Risk', 'High Risk'],
@@ -109,6 +103,9 @@ export class PclFormComponent {
   resetForm() {
     this.responses = new Array(17).fill(null);
     this.result = null;
+    this.predictedScore = undefined;
+    this.predictedRisk  = undefined;
+    this.chartData.datasets[0].data = [0,0,0];
   }
   
 
@@ -129,7 +126,7 @@ export class PclFormComponent {
   async onPredict() {
 
     if (!this.result) {
-      alert('Please submit the PCL-5 assessment first.');
+      alert('Please submit the PCL-C assessment first.');
       return;
     }
   
@@ -164,19 +161,20 @@ export class PclFormComponent {
     ];
   }
 
-  /** same cutoffs as your Java backend */
+  /** same cutoffs as  Java backend */
   private getRiskLevelForPclc(score: number): string {
     if (score >= 50) return "High Risk";
     if (score >= 30) return "Moderate Risk";
     return "Low Risk";
   }
 
-  /** Styling helper for result banner */
-  riskClassPclc(risk: string) {
+  riskClass(risk: string) {
     switch (risk) {
-      case 'High Risk':     return 'high';
+      case 'High Risk': return 'high';
       case 'Moderate Risk': return 'moderate';
-      default:              return 'low';
+      default: return 'low';
     }
   }
+
+ 
 }

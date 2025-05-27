@@ -12,39 +12,46 @@
   </div>
 
   <!-- PCL-5 form + demographics (only if not yet scored) -->
-  <form (ngSubmit)="submitForm()" *ngIf="!result">
-    <!-- ─── demographics & history inputs ─── -->
-    <div class="demographics">
-      <label>3-months ago score: 
-        <input type="number" [(ngModel)]="score3" name="score3" required>
+  <form (ngSubmit)="submitForm()" *ngIf="!result" class="demographics-form">
+    <div class="demographics-row">
+      <label class="demographics-label">
+        3 months ago score:
+        <input
+          type="number"
+          min="0"
+          max="80"
+          [(ngModel)]="score3"
+          name="score3"
+          required
+          class="demographics-input"
+        />
       </label>
-      <label>2-months ago score: 
-        <input type="number" [(ngModel)]="score2" name="score2" required>
+  
+      <label class="demographics-label">
+        2 months ago score:
+        <input
+          type="number"
+          min="0"
+          max="80"
+          [(ngModel)]="score2"
+          name="score2"
+          required
+          class="demographics-input"
+        />
       </label>
-      <label>Last-months score:   
-        <input type="number" [(ngModel)]="score1" name="score1" required>
-      </label>    
-      <label>Age:             
-        <input type="number" [(ngModel)]="age" name="age" required>
+  
+      <label class="demographics-label">
+        Last-month score:
+        <input
+          type="number"
+          min="0"
+          max="80"
+          [(ngModel)]="score1"
+          name="score1"
+          required
+          class="demographics-input"
+        />
       </label>
-      <label>Gender:
-        <select [(ngModel)]="gender" name="gender" required>
-          <option [ngValue]="0">Female</option>
-          <option [ngValue]="1">Male</option>
-        </select>
-      </label>
-      <!-- <label>Work hrs/week:     
-        <input type="number" [(ngModel)]="workHours" name="workHours" required>
-      </label>
-      <label>Sleep hrs/night:   
-        <input type="number" [(ngModel)]="sleepHours" name="sleepHours" required>
-      </label>
-      <label>Exercise hrs/week:  
-        <input type="number" [(ngModel)]="exerciseHours" name="exerciseHours" required>
-      </label>
-      <label>Social support (0–4):
-        <input type="number" min="0" max="4" [(ngModel)]="socialSupport" name="socialSupport" required>
-      </label> -->
     </div>
 
     <!-- ─── PCL-5 questions ─── -->
@@ -69,15 +76,7 @@
     </button>
   </form>
 
-  <!-- ─── after scoring: Retake + Predict ─── -->
-  <!-- <div *ngIf="result" class="post-result-actions">
-    <button class="submit-button" (click)="resetForm()">
-      Retake Assessment
-    </button>
-    <button class="predict-button" (click)="onPredict()">
-      Predict Future PCL-5 Score
-    </button>
-  </div> -->
+
   <div *ngIf="result" class="post-result-actions">
     <button class="submit-button" (click)="resetForm()">
       Retake Assessment

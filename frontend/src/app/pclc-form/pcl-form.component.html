@@ -11,7 +11,49 @@
       Risk Level: {{ result.riskLevel }} | Total Score: {{ result.totalScore }}
     </div>
   
-    <form (ngSubmit)="submitForm()" *ngIf="!result">
+    <form (ngSubmit)="submitForm()" *ngIf="!result" class = "demographics-form">
+      <div class="demographics-row">
+        <label class="demographics-label">
+          3 months ago score:
+          <input
+            type="number"
+            min="0"
+            max="85"
+            [(ngModel)]="score3"
+            name="score3"
+            required
+            class="demographics-input"
+          />
+        </label>
+    
+        <label class="demographics-label">
+          2 months ago score:
+          <input
+            type="number"
+            min="0"
+            max="85"
+            [(ngModel)]="score2"
+            name="score2"
+            required
+            class="demographics-input"
+          />
+        </label>
+    
+        <label class="demographics-label">
+          Last-month score:
+          <input
+            type="number"
+            min="0"
+            max="85"
+            [(ngModel)]="score1"
+            name="score1"
+            required
+            class="demographics-input"
+          />
+        </label>
+        
+      </div>
+
       <div class="question" *ngFor="let q of questions; let i = index">
         <p><strong>{{i + 1}}. {{q}}</strong></p>
         <div class="options">
@@ -26,17 +68,42 @@
       </button>
     </form>
   
-    <!-- Reset Button -->
-    <div *ngIf="result">
+    <div *ngIf="result" class="post-result-actions">
       <button class="submit-button" (click)="resetForm()">
         Retake Assessment
       </button>
+    
+      <button
+        class="predict-button"
+        (click)="onPredict()">
+        Predict Future PTSD Risk
+      </button>
     </div>
-  </div>
+  
+    <!-- ─── show regression prediction (once available) ─── -->
+    <div *ngIf="predictedScore !== undefined" class="prediction-banner">
+      <p>
+        Predicted Next PCL-C Score: 
+        <strong>{{ predictedScore | number:'1.1-2'}}</strong>
+      </p>
+      <p>
+        Predicted Risk Category: 
+        <strong>{{ predictedRisk }}</strong>
+      </p>
+    </div>
 
   <div *ngIf="result" class="chart-wrapper">
+     <!-- ─── Full PCL-C Trend Line Chart ─── -->
+     <div *ngIf="predictedScore !== undefined" class="chart-wrapper">
+      <h3>PCL-C Score Trend</h3>
+      <canvas baseChart
+              [data]="lineChartData"
+              [type]="'line'"
+              [options]="lineChartOptions"
+              style="height: 300px; width: 100%;">
+      </canvas>
+    </div>
     <h3>PTSD Risk Level Chart</h3>
-    
     <canvas baseChart
             [data]="chartData"
             [type]="'bar'"
@@ -53,5 +120,6 @@
       </ul>
     </div>
   </div>
+</div>
   
   
