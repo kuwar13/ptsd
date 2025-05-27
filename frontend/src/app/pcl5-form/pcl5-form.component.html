@@ -1,59 +1,137 @@
-
+<!-- top navigation -->
 <div class="top-nav">
-    <button routerLink="/" class="home-link-button">🏠 Home</button>
-  </div>
-  
+  <button routerLink="/" class="home-link-button">🏠 Home</button>
+</div>
+
 <div class="container">
-    <h1 class="title">🧠 PTSD Checklist for DSM-5 (PCL-5)</h1>
-  
-    <!-- Show Risk Level at Top -->
-    <div *ngIf="result" class="result-banner" [ngClass]="riskClass(result.riskLevel)">
-      Risk Level: {{ result.riskLevel }} | Total Score: {{ result.totalScore }}
-    </div>
-  
-    <form (ngSubmit)="submitForm()" *ngIf="!result">
-      <div class="question" *ngFor="let q of questions; let i = index">
-        <p><strong>{{i + 1}}. {{q}}</strong></p>
-        <div class="options">
-          <label *ngFor="let opt of [0,1,2,3,4]">
-            <input type="radio" [name]="'q' + i" [value]="opt" [(ngModel)]="responses[i]" required>
-            {{opt}}
-          </label>
-        </div>
-      </div>
-      <button type="submit" class="submit-button">
-        Submit & Get Risk Score
-      </button>
-    </form>
-  
-    <!-- Reset Button -->
-    <div *ngIf="result">
-      <button class="submit-button" (click)="resetForm()">
-        Retake Assessment
-      </button>
-    </div>
+  <h1 class="title">🧠 PTSD Checklist for DSM-5 (PCL-5)</h1>
+
+  <!-- show computed risk for this assessment -->
+  <div *ngIf="result" class="result-banner" [ngClass]="riskClass(result.riskLevel)">
+    Risk Level: {{ result.riskLevel }} | Total Score: {{ result.totalScore }}
   </div>
 
+  <!-- PCL-5 form + demographics (only if not yet scored) -->
+  <form (ngSubmit)="submitForm()" *ngIf="!result">
+    <!-- ─── demographics & history inputs ─── -->
+    <div class="demographics">
+      <label>3-months ago score: 
+        <input type="number" [(ngModel)]="score3" name="score3" required>
+      </label>
+      <label>2-months ago score: 
+        <input type="number" [(ngModel)]="score2" name="score2" required>
+      </label>
+      <label>Last-months score:   
+        <input type="number" [(ngModel)]="score1" name="score1" required>
+      </label>    
+      <label>Age:             
+        <input type="number" [(ngModel)]="age" name="age" required>
+      </label>
+      <label>Gender:
+        <select [(ngModel)]="gender" name="gender" required>
+          <option [ngValue]="0">Female</option>
+          <option [ngValue]="1">Male</option>
+        </select>
+      </label>
+      <!-- <label>Work hrs/week:     
+        <input type="number" [(ngModel)]="workHours" name="workHours" required>
+      </label>
+      <label>Sleep hrs/night:   
+        <input type="number" [(ngModel)]="sleepHours" name="sleepHours" required>
+      </label>
+      <label>Exercise hrs/week:  
+        <input type="number" [(ngModel)]="exerciseHours" name="exerciseHours" required>
+      </label>
+      <label>Social support (0–4):
+        <input type="number" min="0" max="4" [(ngModel)]="socialSupport" name="socialSupport" required>
+      </label> -->
+    </div>
+
+    <!-- ─── PCL-5 questions ─── -->
+    <div class="question" *ngFor="let q of questions; let i = index">
+      <p><strong>{{ i + 1 }}. {{ q }}</strong></p>
+      <div class="options">
+        <label *ngFor="let opt of [0,1,2,3,4]">
+          <input 
+            type="radio" 
+            [name]="'q' + i" 
+            [value]="opt" 
+            [(ngModel)]="responses[i]" 
+            required>
+          {{ opt }}
+        </label>
+      </div>
+    </div>
+
+    <!-- ─── submit button ─── -->
+    <button type="submit" class="submit-button">
+      Submit & Get Risk Score
+    </button>
+  </form>
+
+  <!-- ─── after scoring: Retake + Predict ─── -->
+  <!-- <div *ngIf="result" class="post-result-actions">
+    <button class="submit-button" (click)="resetForm()">
+      Retake Assessment
+    </button>
+    <button class="predict-button" (click)="onPredict()">
+      Predict Future PCL-5 Score
+    </button>
+  </div> -->
+  <div *ngIf="result" class="post-result-actions">
+    <button class="submit-button" (click)="resetForm()">
+      Retake Assessment
+    </button>
+  
+    <button
+      class="predict-button"
+      (click)="onPredict()">
+      Predict Future PTSD Risk
+    </button>
+  </div>
+
+  <!-- ─── show regression prediction (once available) ─── -->
+  <div *ngIf="predictedScore !== undefined" class="prediction-banner">
+    <p>
+      Predicted Next PCL-5 Score: 
+      <strong>{{ predictedScore | number:'1.1-2'}}</strong>
+    </p>
+    <p>
+      Predicted Risk Category: 
+      <strong>{{ predictedRisk }}</strong>
+    </p>
+  </div>
+
+ 
+
+
+  <!-- ─── chart & legend ─── -->
   <div *ngIf="result" class="chart-wrapper">
+     <!-- ─── Full PCL-5 Trend Line Chart ─── -->
+    <div *ngIf="predictedScore !== undefined" class="chart-wrapper">
+      <h3>PCL-5 Score Trend</h3>
+      <canvas baseChart
+              [data]="lineChartData"
+              [type]="'line'"
+              [options]="lineChartOptions"
+              style="height: 300px; width: 100%;">
+      </canvas>
+    </div>
     <h3>PTSD Risk Level Chart</h3>
-    
     <canvas baseChart
             [data]="chartData"
             [type]="'bar'"
             [options]="{ responsive: true, maintainAspectRatio: false }"
-            style="max-height: 250px; width: 100%;"
-            >
+            style="max-height: 250px; width: 100%;">
     </canvas>
-  
     <div class="risk-legend">
       <h4>Risk Score Ranges:</h4>
       <ul>
-        <li><strong>No PTSD:</strong> 0 - 31</li>
-        <li><strong>Low Risk:</strong> 32 - 43</li>
-        <li><strong>Moderate Risk:</strong> 44 - 59</li>
-        <li><strong>High Risk:</strong> 60 - 80</li>
+        <li><strong>No PTSD:</strong> 0 – 31</li>
+        <li><strong>Low Risk:</strong> 32 – 43</li>
+        <li><strong>Moderate Risk:</strong> 44 – 59</li>
+        <li><strong>High Risk:</strong> 60 – 80</li>
       </ul>
     </div>
   </div>
-  
-  
+</div>
