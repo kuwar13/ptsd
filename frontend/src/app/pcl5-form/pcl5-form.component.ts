@@ -5,7 +5,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule }                 from '@angular/router';
 import { ChartConfiguration }           from 'chart.js';
 import { NgChartsModule }               from 'ng2-charts';
-import * as tf                          from '@tensorflow/tfjs';
+
 
 
 
@@ -22,7 +22,7 @@ import * as tf                          from '@tensorflow/tfjs';
   templateUrl: './pcl5-form.component.html',
   styleUrls: ['./pcl5-form.component.css']
 })
-export class Pcl5FormComponent implements OnInit {
+export class Pcl5FormComponent  {
   // ─── The 20 PCL-5 questions ───
   questions = [
     "Repeated, disturbing, and unwanted memories of the stressful experience?",
@@ -55,13 +55,7 @@ export class Pcl5FormComponent implements OnInit {
   score3!: number; // 3 months ago
   score2!: number; // 2 months ago
   score1!: number; // last month
-  currentScore!: number;   // f0, the latest PCL-5 total
-  age!: number;
-  gender!: number;      // 0 = female, 1 = male
-  workHours!: number;
-  sleepHours!: number;
-  exerciseHours!: number;
-  socialSupport!: number;  // 0–4 scale
+
 
   // ─── Chart data ───
   chartData: ChartConfiguration<'bar'>['data'] = {
@@ -89,11 +83,6 @@ export class Pcl5FormComponent implements OnInit {
   };
 
 
-  // ─── TensorFlow artifacts ───
-  private dataMin!: tf.Tensor;
-  private dataMax!: tf.Tensor;
-  private model!: tf.Sequential;
-  modelReady = false;
 
   // ─── Prediction outputs ───
   predictedScore?: number;
@@ -101,9 +90,7 @@ export class Pcl5FormComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-   // this.prepareAndTrainModel().then(() => this.modelReady = true);
-  }
+  
 
 
 

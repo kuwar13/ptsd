@@ -47,13 +47,7 @@ export class PclFormComponent {
   score3!: number; // 3 months ago
   score2!: number; // 2 months ago
   score1!: number; // last month
-  currentScore!: number;   // f0, the latest PCL-C total
-  age!: number;
-  gender!: number;      // 0 = female, 1 = male
-  workHours!: number;
-  sleepHours!: number;
-  exerciseHours!: number;
-  socialSupport!: number;  // 0–4 scale
+
 
   constructor(private http: HttpClient) {}
 
